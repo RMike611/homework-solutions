@@ -1,0 +1,44 @@
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+void calcSpan(int price[], const int n, int S[])
+{
+    stack<int> st;
+    st.push(0);
+
+    S[0] = 1;
+
+    //Calc span for rest
+    for (int i = 1; i < n; i++)
+    {
+        while (!st.empty() && price[st.top()] <= price[i])
+            st.pop();
+
+        S[i] = (st.empty()) ? (i + 1) : (i - st.top());
+
+        st.push(i);
+    }
+}
+
+int main()
+{
+    const int size = 5;
+    int pA[size] = { 88, 87, 86, 89, 88 };
+    int span[size];
+
+    calcSpan(pA, size, span);
+
+    int c = 1;
+    int day = 26;
+    while (c <= size)
+    {
+        cout << "AMD on 4/" << day << " ($" << pA[c - 1] << ") span is " << span[c - 1] << " | ";
+        day++;
+        c++;
+    }
+
+
+    return 0;
+}
